@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -102,8 +101,8 @@ public class MyService extends Service
                 0, notificationIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Example Service")
-                .setContentText("Demo")
+                .setContentTitle("WebSocketService")
+                .setContentText("App is running")
                 .setSmallIcon(R.drawable.img)
                 .setContentIntent(pendingIntent)
                 .build();
@@ -132,8 +131,6 @@ public class MyService extends Service
             @Override
             public void run()
             {
-                //Toast.makeText(MyService.this, "Thread id: "+Thread.currentThread().getId() + "\n" + listener.getOutput(), Toast.LENGTH_SHORT).show();
-
                 Log.e(String.valueOf(getApplicationContext()), "Thread id: " + Thread.currentThread().getId() + "\n" + listener.getOutput());
                 someHandler.postDelayed(this, 1000);
             }
