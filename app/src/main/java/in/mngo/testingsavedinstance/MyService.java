@@ -1,5 +1,7 @@
 package in.mngo.testingsavedinstance;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -7,6 +9,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import okhttp3.OkHttpClient;
@@ -15,6 +18,8 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+
+import static in.mngo.testingsavedinstance.App.CHANNEL_ID;
 
 public class MyService extends Service
 {
@@ -91,6 +96,20 @@ public class MyService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+    //creating notification
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Example Service")
+                .setContentText("Demo")
+                .setSmallIcon(R.drawable.img)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        startForeground(1, notification);
+
     //making connection wth web-socket server
         client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://192.168.43.10:3030").build();
@@ -119,14 +138,6 @@ public class MyService extends Service
                 someHandler.postDelayed(this, 1000);
             }
         }, 10);
-
-//        new Handler(Looper.getMainLooper()).post(new Runnable()
-//        {
-//            @Override
-//            public void run() {
-//                Toast.makeText(MyService.this, "Thread id: "+Thread.currentThread().getId() + "\n" + listener.getOutput(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         return START_STICKY;
     }
