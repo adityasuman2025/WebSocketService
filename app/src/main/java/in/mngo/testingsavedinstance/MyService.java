@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -65,16 +66,16 @@ public class MyService extends Service
         }
     }
 
-//    class MyServiceBinder extends Binder
-//    {
-//        public MyService getService()
-//        {
-//            return MyService.this;
-//        }
-//    }
-//
-//    private IBinder mBinder = new MyServiceBinder();
+//binding stuff
+    class MyServiceBinder extends Binder
+    {
+        public MyService getService()
+        {
+            return MyService.this;
+        }
+    }
 
+    private IBinder mBinder = new MyServiceBinder();
 
     @Override
     public void onCreate() {
@@ -84,18 +85,14 @@ public class MyService extends Service
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
+//on service start stuffs
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-    //creating notification
+    //creating permanent notification
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
@@ -139,4 +136,13 @@ public class MyService extends Service
         return START_STICKY;
     }
 
+    public String getData()
+    {
+        return listener.getOutput();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
