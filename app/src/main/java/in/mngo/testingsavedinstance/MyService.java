@@ -108,7 +108,7 @@ public class MyService extends Service
 
     //making connection wth web-socket server
         client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://192.168.43.10:3030").build();
+        Request request = new Request.Builder().url("ws://192.168.4.100:6789").build();
         // in android emulator localhost/127.0.0.1 is equal to 10.0.2.2
         // in android mobile phone localhost/127.0.0.1 is equal to 192.168.X.X
         //Open cmd in windows
