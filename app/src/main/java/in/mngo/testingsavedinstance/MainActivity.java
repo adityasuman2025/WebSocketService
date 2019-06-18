@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        text = findViewById(R.id.text);
+
+    //starting service
         serviceIntent = new Intent(getApplicationContext(), MyService.class);
         startService(serviceIntent);
 
-        text = findViewById(R.id.text);
-
         Log.e(String.valueOf(getApplicationContext()), "Thread id: " + Thread.currentThread().getId());
-
 
     //creating a channel for notification
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
